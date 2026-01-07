@@ -1,33 +1,65 @@
-import React from 'react';
-import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer } from 'recharts';
+import React, { memo } from "react";
+import {
+  Radar,
+  RadarChart,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  ResponsiveContainer,
+} from "recharts";
 
 const RadarChartComponent = ({ threatAnalysis, layers }) => {
   if (!threatAnalysis) return null;
 
   const radarData = [
     {
-      dimension: 'RITD',
-      score: Math.min(100, (threatAnalysis.breakdown?.find(d => d.includes('RITD'))?.match(/\d+/)?.[0] || 0) * 2.5),
+      dimension: "RITD",
+      score: Math.min(
+        100,
+        (threatAnalysis.breakdown
+          ?.find((d) => d.includes("RITD"))
+          ?.match(/\d+/)?.[0] || 0) * 2.5
+      ),
       fullMark: 100,
     },
     {
-      dimension: 'LDF',
-      score: Math.min(100, (threatAnalysis.breakdown?.find(d => d.includes('LDF'))?.match(/\d+\.?\d*/)?.[0] || 0) * 4),
+      dimension: "LDF",
+      score: Math.min(
+        100,
+        (threatAnalysis.breakdown
+          ?.find((d) => d.includes("LDF"))
+          ?.match(/\d+\.?\d*/)?.[0] || 0) * 4
+      ),
       fullMark: 100,
     },
     {
-      dimension: 'Context',
-      score: Math.min(100, (threatAnalysis.breakdown?.find(d => d.includes('Context'))?.match(/\d+\.?\d*/)?.[0] || 0) * 5),
+      dimension: "Context",
+      score: Math.min(
+        100,
+        (threatAnalysis.breakdown
+          ?.find((d) => d.includes("Context"))
+          ?.match(/\d+\.?\d*/)?.[0] || 0) * 5
+      ),
       fullMark: 100,
     },
     {
-      dimension: 'Obfuscation',
-      score: Math.min(100, (threatAnalysis.breakdown?.find(d => d.includes('Obfuscation'))?.match(/\d+/)?.[0] || 0) * 10),
+      dimension: "Obfuscation",
+      score: Math.min(
+        100,
+        (threatAnalysis.breakdown
+          ?.find((d) => d.includes("Obfuscation"))
+          ?.match(/\d+/)?.[0] || 0) * 10
+      ),
       fullMark: 100,
     },
     {
-      dimension: 'NCD',
-      score: Math.min(100, (threatAnalysis.breakdown?.find(d => d.includes('NCD'))?.match(/\d+\.?\d*/)?.[0] || 0) * 20),
+      dimension: "NCD",
+      score: Math.min(
+        100,
+        (threatAnalysis.breakdown
+          ?.find((d) => d.includes("NCD"))
+          ?.match(/\d+\.?\d*/)?.[0] || 0) * 20
+      ),
       fullMark: 100,
     },
   ];
@@ -35,28 +67,34 @@ const RadarChartComponent = ({ threatAnalysis, layers }) => {
   // Calculate actual scores from layers if available
   const actualData = [
     {
-      dimension: 'RITD',
-      score: layers?.RITD?.status === 'danger' ? 80 : 20,
+      dimension: "RITD",
+      score: layers?.RITD?.status === "danger" ? 80 : 20,
       fullMark: 100,
     },
     {
-      dimension: 'LDF',
-      score: layers?.LDF?.status === 'danger' ? Math.min(100, (layers.LDF.deviationScore || 0) * 20) : 20,
+      dimension: "LDF",
+      score:
+        layers?.LDF?.status === "danger"
+          ? Math.min(100, (layers.LDF.deviationScore || 0) * 20)
+          : 20,
       fullMark: 100,
     },
     {
-      dimension: 'Context',
-      score: layers?.CONTEXT?.status === 'danger' ? Math.min(100, (layers.CONTEXT.suspiciousScore || 0) * 100) : 20,
+      dimension: "Context",
+      score:
+        layers?.CONTEXT?.status === "danger"
+          ? Math.min(100, (layers.CONTEXT.suspiciousScore || 0) * 100)
+          : 20,
       fullMark: 100,
     },
     {
-      dimension: 'Obfuscation',
-      score: layers?.OBFUSCATION?.status === 'danger' ? 70 : 10,
+      dimension: "Obfuscation",
+      score: layers?.OBFUSCATION?.status === "danger" ? 70 : 10,
       fullMark: 100,
     },
     {
-      dimension: 'NCD',
-      score: layers?.NCD?.status === 'danger' ? 60 : 20,
+      dimension: "NCD",
+      score: layers?.NCD?.status === "danger" ? 60 : 20,
       fullMark: 100,
     },
   ];
@@ -71,14 +109,14 @@ const RadarChartComponent = ({ threatAnalysis, layers }) => {
         <ResponsiveContainer width="100%" height="100%">
           <RadarChart data={actualData}>
             <PolarGrid stroke="#374151" />
-            <PolarAngleAxis 
-              dataKey="dimension" 
-              tick={{ fill: '#9CA3AF', fontSize: 12 }}
+            <PolarAngleAxis
+              dataKey="dimension"
+              tick={{ fill: "#9CA3AF", fontSize: 12 }}
             />
-            <PolarRadiusAxis 
-              angle={90} 
-              domain={[0, 100]} 
-              tick={{ fill: '#6B7280', fontSize: 10 }}
+            <PolarRadiusAxis
+              angle={90}
+              domain={[0, 100]}
+              tick={{ fill: "#6B7280", fontSize: 10 }}
             />
             <Radar
               name="Threat Level"
@@ -97,5 +135,4 @@ const RadarChartComponent = ({ threatAnalysis, layers }) => {
   );
 };
 
-export default RadarChartComponent;
-
+export default memo(RadarChartComponent);

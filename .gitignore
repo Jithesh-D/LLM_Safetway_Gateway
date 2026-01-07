@@ -3,18 +3,22 @@
 .env.local
 .env.*.local
 
+# Sensitive files - NEVER commit!
+firebase.json
+*.pem
+*.key
+
 # Node modules
 node_modules/
 npm-debug.log
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+package-lock.json
 
 # OS files
 .DS_Store
 Thumbs.db
-.vscode/
-.idea/
 
 # Build directories
 build/
@@ -24,6 +28,11 @@ out/
 # Testing
 coverage/
 .nyc_output/
+
+# Test files
+test-*.js
+test_*.py
+test-gateway.sh
 
 # Temporary files
 *.tmp
@@ -47,3 +56,15 @@ coverage/
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Documentation & Summary files
+*.md
+KEY_UPDATE_SUMMARY.txt
+READY_FOR_GITHUB.txt
+SUMMARY.txt
+
+# Ollama related
+ollama_chatbot_section.py
+
+# CSV data files
+*.csv
